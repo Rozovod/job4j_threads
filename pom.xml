@@ -17,6 +17,14 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <dependencies>
+    <dependency>
+        <groupId>net.jcip</groupId>
+        <artifactId>jcip-annotations</artifactId>
+        <version>1.0</version>
+    </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -36,11 +44,6 @@
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
                         <version>9.0</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>net.jcip</groupId>
-                        <artifactId>jcip-annotations</artifactId>
-                        <version>1.0</version>
                     </dependency>
                 </dependencies>
                 <executions>
