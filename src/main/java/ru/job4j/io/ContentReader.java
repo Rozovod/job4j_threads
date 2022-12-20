@@ -3,10 +3,10 @@ package ru.job4j.io;
 import java.io.*;
 import java.util.function.Predicate;
 
-public class GetContentFromFile {
+public class ContentReader {
     private final File file;
 
-    public GetContentFromFile(File file) {
+    public ContentReader(File file) {
         this.file = file;
     }
 
