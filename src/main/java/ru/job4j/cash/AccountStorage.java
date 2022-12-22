@@ -1,7 +1,6 @@
 package ru.job4j.cash;
 
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Optional;
 
 public class AccountStorage {
@@ -9,23 +8,13 @@ public class AccountStorage {
 
     public boolean add(Account account) {
         synchronized (accounts) {
-            boolean rsl = false;
-            if (!accounts.containsValue(account)) {
-                accounts.put(account.id(), account);
-                rsl = true;
-            }
-            return rsl;
+            return accounts.putIfAbsent(account.id(), account) == null;
         }
     }
 
     public boolean update(Account account) {
         synchronized (accounts) {
-            boolean rsl = false;
-            if (accounts.containsKey(account.id())) {
-                accounts.replace(account.id(), account);
-                rsl = true;
-            }
-            return rsl;
+            return accounts.replace(account.id(), getById(account.id()).get(), account);
         }
     }
 
@@ -37,14 +26,7 @@ public class AccountStorage {
 
     public Optional<Account> getById(int id) {
         synchronized (accounts) {
-            Optional<Account> rsl = Optional.empty();
-            for (Integer accId : accounts.keySet()) {
-                if (Objects.equals(accId, id)) {
-                    rsl = Optional.of(accounts.get(accId));
-                    break;
-                }
-            }
-            return rsl;
+            return Optional.ofNullable(accounts.get(id));
         }
     }
 
