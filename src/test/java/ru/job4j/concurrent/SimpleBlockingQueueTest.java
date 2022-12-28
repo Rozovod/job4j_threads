@@ -15,7 +15,8 @@ class SimpleBlockingQueueTest {
                 queue.offer(2);
                 queue.offer(3);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
+                System.err.println("Thread producer is interrupted");
             }
         });
         Thread consumer = new Thread(() -> {
@@ -23,7 +24,8 @@ class SimpleBlockingQueueTest {
                 queue.poll();
                 queue.poll();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
+                System.err.println("Thread consumer is interrupted");
             }
         });
         producer.start();
