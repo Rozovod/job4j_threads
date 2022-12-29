@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class SimpleBlockingQueueTest {
 
     @Test
-    public void whenAdd7AndPoll5() throws InterruptedException {
+    public void whenAdd7AndPoll7() throws InterruptedException {
         final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
         final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(7);
         Thread producer = new Thread(
@@ -26,13 +26,13 @@ class SimpleBlockingQueueTest {
         );
         Thread consumer = new Thread(
                 () -> {
-                    try {
-                        for (int i = 1; i <= 5; i++) {
+                    while (!queue.isEmpty() || !Thread.currentThread().isInterrupted()) {
+                        try {
                             buffer.add(queue.poll());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            Thread.currentThread().interrupt();
                         }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        Thread.currentThread().interrupt();
                     }
                 }
         );
@@ -41,6 +41,6 @@ class SimpleBlockingQueueTest {
         producer.join();
         consumer.interrupt();
         consumer.join();
-        assertThat(buffer).isEqualTo(Arrays.asList(1, 2, 3, 4, 5));
+        assertThat(buffer).isEqualTo(Arrays.asList(1, 2, 3, 4, 5, 6, 7));
     }
 }
