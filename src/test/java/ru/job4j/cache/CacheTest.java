@@ -40,15 +40,14 @@ class CacheTest {
         userSecond.setName("UserSecond");
         assertThat(cache.update(userSecond)).isTrue();
         assertThat(cache.getById(1).get().getVersion()).isEqualTo(1);
+        assertThat(cache.getById(1).get().getName()).isEqualTo("UserFirst");
     }
 
     @Test
     public void whenUpdateGenThrow() {
         Base userFirst = new Base(1, 0);
-        userFirst.setName("UserFirst");
         cache.add(userFirst);
         Base userSecond = new Base(1, 1);
-        userSecond.setName("UserSecond");
         assertThatThrownBy(() -> cache.update(userSecond))
                 .isInstanceOf(OptimisticException.class)
                 .hasMessageContaining("Versions are not equal");
