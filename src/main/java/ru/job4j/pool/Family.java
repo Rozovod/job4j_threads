@@ -10,7 +10,7 @@ public class Family {
         while (count < 10) {
             System.out.println("Вы: Я работаю");
             TimeUnit.SECONDS.sleep(1);
-            count ++;
+            count++;
         }
     }
 
@@ -65,7 +65,7 @@ public class Family {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                count ++;
+                count++;
             }
             System.out.println("Сын: Я помыл руки");
         });
